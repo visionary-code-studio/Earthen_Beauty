@@ -1,0 +1,5 @@
+Upload your Bulk Order product pictures in this folder (images/bulk-orders/).
+
+Instructions:
+1. Save your image here with the product name (e.g., "Wedding Favors.jpeg", "Corporate Gift Box.jpeg", etc.).
+2. You can update the product names, quantities, and descriptions in js/products.js under the 'bulkProducts' list.

@@ -1,0 +1,54 @@
+# ==========================================
+# Earthen Beauty - Git Ignore Configuration
+# ==========================================
+
+# 1. Environment & Sensitive Credentials
+.env
+.env.local
+.env.*.local
+*.env
+!.env.example
+
+# 2. Local Database Files & SQLite Stores (Contains local customer & order data)
+# Note: Database structure and initial seed data are preserved in backend/schema.sql
+data/*.db
+data/*.sqlite
+data/*.sqlite3
+*.db-journal
+*.db-wal
+*.db-shm
+!data/.gitkeep
+
+# 3. Portable Binaries & Runtimes (Avoid bloating repo with OS-specific binaries)
+# Note: Use setup_php.py or standard system PHP / MySQL runtime on host
+backend/php/
+*.exe
+*.dll
+
+# 4. Python Cache & Virtual Environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+*.egg-info/
+
+# 5. OS & Editor Generated Files
+.DS_Store
+Thumbs.db
+desktop.ini
+*.lnk
+.vscode/
+.idea/
+*.suo
+*.user
+
+# 6. Logs & Temporary Storage
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.tempmediaStorage/
+temp/
+tmp/

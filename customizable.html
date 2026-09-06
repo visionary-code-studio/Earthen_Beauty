@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Customize your own candles, gift boxes, and more at Earthen Beauty by Nupur.">
+  <title>Customize | Earthen Beauty by Nupur</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Cart Overlay -->
+  <div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
+
+  <!-- Cart Side Panel -->
+  <div class="cart-panel" id="cart-panel">
+    <div class="cart-header">
+      <h3>🛒 Your Cart</h3>
+      <button class="cart-close-btn" onclick="closeCart()">✕</button>
+    </div>
+    <div class="cart-body">
+      <div class="empty-cart-msg" id="empty-cart-msg">
+        <div class="empty-icon">🕯️</div>
+        <p>Your cart is empty</p>
+      </div>
+      <div id="cart-items"></div>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-summary-row">
+        <span>Subtotal</span>
+        <span id="cart-subtotal">₹0</span>
+      </div>
+      <div class="cart-summary-row shipping">
+        <span>Shipping Fees</span>
+        <span id="cart-shipping">₹90</span>
+      </div>
+      <div class="cart-total-row">
+        <span>Total</span>
+        <span class="cart-total-price" id="cart-total">₹0</span>
+      </div>
+      <button class="checkout-btn" id="cart-checkout-btn" onclick="initiateCheckout()">
+        <span>Proceed to Checkout (Razorpay 🔒)</span>
+      </button>
+      <div class="cart-trust-badges">
+        <span>💳 Razorpay Secure</span> • <span>🚚 Shiprocket Fast Delivery</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Modal Overlay -->
+  <div class="search-overlay" id="search-overlay" onclick="closeSearchModal(event)">
+    <div class="search-modal-content" onclick="event.stopPropagation()">
+      <div class="search-modal-header">
+        <span style="font-size: 1.2rem; color: var(--terracotta);">🔍</span>
+        <input type="text" id="global-search-input" placeholder="Type to search candles, diffusers, mists..." oninput="handleGlobalSearch(this.value)">
+        <button class="search-modal-close" onclick="closeSearchModal()" title="Close">✕</button>
+      </div>
+      <div class="search-modal-results" id="search-modal-results">
+        <!-- Live search results rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header scrolled" id="header">
+    <div class="container">
+
+      <!-- Brand Logo (Left) -->
+      <a href="index.html" class="logo">
+        <h1>Earthen Beauty</h1>
+        <span>by Nupur</span>
+      </a>
+
+      <!-- Floating Pill Navbar (Reference Layout - Clean Text Links) -->
+      <nav class="nav-center">
+        <ul class="nav-links nav-pill-capsule" id="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="customizable.html" class="active">Customize</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Right Header Actions (Cart(0), Wishlist, Account, Search) matching reference -->
+      <div class="header-actions">
+        <button class="cart-btn" onclick="toggleCart()" title="View Cart">
+          <svg class="cart-icon-svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="cart-label-text">Cart(<span id="cart-count">0</span>)</span>
+        </button>
+
+        <button type="button" class="header-action-btn profile-btn" id="header-profile-btn" onclick="handleProfileBtnClick(event)" title="Account & Sign In" aria-label="Account">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </button>
+
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Custom Hero -->
+  <section class="custom-hero">
+    <h1>Customize Your Own</h1>
+    <p>Create something uniquely yours</p>
+  </section>
+
+  <!-- Custom Options -->
+  <section class="custom-options">
+    <div class="container">
+
+      <!-- Quick Nav Pills -->
+      <div class="custom-nav-pills">
+        <a href="#bulk-orders" class="custom-nav-pill highlight">📦 Bulk & Corporate Orders</a>
+        <a href="#custom-design" class="custom-nav-pill">✨ Custom Design</a>
+        <a href="#gift-box" class="custom-nav-pill">🎁 Gift Box Builder</a>
+        <a href="#name-candles" class="custom-nav-pill">✍️ Name Candles</a>
+        <a href="#special-request" class="custom-nav-pill">💌 Special Request</a>
+      </div>
+
+      <!-- Bulk Orders Section -->
+      <div class="custom-option-card reveal" id="bulk-orders" style="border: 2px solid rgba(72, 114, 88, 0.28);">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <span class="bulk-badge-header">Wholesale & Celebrations</span>
+            <h2 style="margin-top: 4px; display: flex; align-items: center; gap: 8px;">📦 Bulk & Corporate Orders</h2>
+          </div>
+          <a href="https://wa.me/918296891802?text=Hi%20Nupur!%20I%20would%20like%20to%20enquire%20about%20a%20Bulk%20Order%20for%20an%20upcoming%20event." target="_blank" class="whatsapp-btn-luxury" style="padding: 10px 22px; font-size: 0.88rem; margin: 0;">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            <span>Direct Bulk Chat</span>
+          </a>
+        </div>
+        <p>Planning a wedding, corporate event, festive celebration, or party return gifts? Order handcrafted soy candles, diffusers, and luxury hampers with customized quantities, personalized logo branding, and wholesale pricing.</p>
+
+        <!-- Bulk Filter Chips -->
+        <div class="gift-filter-chips" style="margin-bottom: 24px;">
+          <button class="gift-chip active" onclick="filterBulkCategory('all', this)">All Bulk Products</button>
+          <button class="gift-chip" onclick="filterBulkCategory('Festive & Celebrations', this)">Festive & Diyas</button>
+          <button class="gift-chip" onclick="filterBulkCategory('Weddings & Favors', this)">Weddings & Favors</button>
+          <button class="gift-chip" onclick="filterBulkCategory('Return Gifts & Favors', this)">Return Gifts & Soaps</button>
+          <button class="gift-chip" onclick="filterBulkCategory('Wardrobe & Aromatics', this)">Wax Sachets</button>
+        </div>
+
+        <!-- Bulk Products Grid -->
+        <div class="bulk-products-grid" id="bulk-products-grid">
+          <!-- Loaded dynamically from bulkProducts in js/products.js -->
+        </div>
+
+        <!-- Custom Bulk Quote Banner -->
+        <div class="bulk-custom-quote-banner">
+          <div>
+            <h3>Need a Custom Bulk Package or Specific Quantity?</h3>
+            <p>Have a custom idea in mind, want items from our shop in bulk, or need a large batch quotation? Fill in your details below to enquire directly with Nupur on WhatsApp.</p>
+          </div>
+          <div class="bulk-quote-row">
+            <div class="bulk-field">
+              <label style="color: rgba(255,255,255,0.9);">Your Name</label>
+              <input type="text" id="custom-bulk-name" placeholder="Enter your name">
+            </div>
+            <div class="bulk-field">
+              <label style="color: rgba(255,255,255,0.9);">Product / Theme Interest</label>
+              <input type="text" id="custom-bulk-product" placeholder="e.g. Scented Urli, Custom Candle Sets, Soaps">
+            </div>
+            <div class="bulk-field">
+              <label style="color: rgba(255,255,255,0.9);">Estimated Quantity</label>
+              <input type="number" id="custom-bulk-qty" min="15" value="50" placeholder="e.g. 50, 100, 500">
+            </div>
+          </div>
+          <div class="bulk-quote-row">
+            <div class="bulk-field">
+              <label style="color: rgba(255,255,255,0.9);">Occasion / Event</label>
+              <select id="custom-bulk-occasion">
+                <option value="Wedding / Engagement">Wedding / Engagement</option>
+                <option value="Corporate Gifting / Employee Kits">Corporate Gifting / Employee Kits</option>
+                <option value="Festive Celebration (Diwali / New Year)">Festive Celebration (Diwali / New Year)</option>
+                <option value="Baby Shower / Naming Ceremony">Baby Shower / Naming Ceremony</option>
+                <option value="Birthday / Anniversary Party">Birthday / Anniversary Party</option>
+                <option value="Other Special Event">Other Special Event</option>
+              </select>
+            </div>
+            <div class="bulk-field">
+              <label style="color: rgba(255,255,255,0.9);">Required Event / Delivery Date</label>
+              <input type="date" id="custom-bulk-date">
+            </div>
+            <div class="bulk-field">
+              <label style="color: rgba(255,255,255,0.9);">Custom Tags / Logo Branding</label>
+              <select id="custom-bulk-branding">
+                <option value="Yes, Need Custom Logo & Message Tags">Yes, Need Custom Logo & Message Tags</option>
+                <option value="Standard Elegant Packaging">Standard Elegant Packaging</option>
+              </select>
+            </div>
+          </div>
+          <div class="bulk-field">
+            <label style="color: rgba(255,255,255,0.9);">Additional Notes or Special Requests</label>
+            <textarea id="custom-bulk-notes" rows="2" placeholder="Describe scents, color themes, packaging requests, or budget..."></textarea>
+          </div>
+          <button class="bulk-enquire-btn" style="align-self: flex-start; max-width: 380px;" onclick="submitGeneralBulkQuote()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            <span>Enquire Custom Bulk Price on WhatsApp</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Option 1: Custom Base + Design -->
+      <div class="custom-option-card reveal" id="custom-design">
+        <h2>Custom Design Candle</h2>
+        <p>Choose your preferred base and upload your own design. We'll handcraft it just for you!</p>
+
+        <h4 style="font-family: 'Poppins', sans-serif; margin-bottom: 16px; color: var(--text-dark);">Step 1: Select a Base</h4>
+        <div class="base-selector" id="base-selector">
+          <div class="base-option" onclick="selectBase(this, 'Wooden Base')">
+            <p>Wooden Base</p>
+          </div>
+          <div class="base-option" onclick="selectBase(this, 'Glass Jar')">
+            <p>Glass Jar</p>
+          </div>
+          <div class="base-option" onclick="selectBase(this, 'Metal Urli')">
+            <p>Metal Urli</p>
+          </div>
+          <div class="base-option" onclick="selectBase(this, 'Tea Light')">
+            <p>Tea Light</p>
+          </div>
+          <div class="base-option" onclick="selectBase(this, 'Small Glass')">
+            <p>Small Glass</p>
+          </div>
+          <div class="base-option" onclick="selectBase(this, 'Decorative & Statue')">
+            <p>Decorative & Statue</p>
+          </div>
+          <div class="base-option" onclick="selectBase(this, 'Wax Sachet')">
+            <p>Wax Sachet</p>
+          </div>
+        </div>
+
+        <h4 style="font-family: 'Poppins', sans-serif; margin-bottom: 16px; margin-top: 24px; color: var(--text-dark);">Step 2: Upload Your Design</h4>
+        <div class="upload-area" onclick="document.getElementById('design-upload').click()">
+          <div class="upload-icon">📁</div>
+          <p>Click to upload your design image</p>
+          <p style="font-size: 0.8rem; margin-top: 8px;">(JPG, PNG, or PDF)</p>
+          <input type="file" id="design-upload" accept="image/*,.pdf" style="display:none" onchange="showFileName(this)">
+        </div>
+        <p id="upload-filename" style="margin-top: 12px; color: var(--terracotta); font-weight: 500;"></p>
+
+        <h4 style="font-family: 'Poppins', sans-serif; margin-bottom: 12px; margin-top: 24px; color: var(--text-dark);">Step 3: Add Your Notes</h4>
+        <div class="form-group">
+          <textarea id="custom-design-notes" placeholder="Describe what you'd like — colors, size, scent preferences, any special instructions..." style="padding: 12px 16px; border: 2px solid #e8e4de; border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: 0.9rem; min-height: 100px; resize: vertical; width:100%;"></textarea>
+        </div>
+
+        <button class="whatsapp-btn-luxury" style="margin-top: 20px; align-self: flex-start;" onclick="submitCustomDesign()">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+          <span>Enquire Price on WhatsApp</span>
+        </button>
+      </div>
+
+      <!-- Option 2: Custom Gift Box -->
+      <div class="custom-option-card reveal" id="gift-box">
+        <h2>Custom Gift Box</h2>
+        <p>Build your perfect gift box! Pick items across all our handcrafted collections.</p>
+
+        <div class="gift-box-builder">
+          <div>
+            <div class="gift-search-container">
+              <div class="gift-search-input-wrap">
+                <span class="gift-search-icon">🔍</span>
+                <input type="text" id="gift-search-input" placeholder="Search any product for gift box... (e.g. Lavender, Rose, Soap, Urli)" oninput="filterGiftItems()">
+              </div>
+              <div class="gift-filter-chips">
+                <button class="gift-chip active" onclick="setGiftCategory('all', this)">All</button>
+                <button class="gift-chip" onclick="setGiftCategory('candles', this)">Candles</button>
+                <button class="gift-chip" onclick="setGiftCategory('diffusers', this)">Diffusers</button>
+                <button class="gift-chip" onclick="setGiftCategory('mist-spray', this)">Mist & Spray</button>
+                <button class="gift-chip" onclick="setGiftCategory('wax-sachet', this)">Wax Sachet</button>
+                <button class="gift-chip" onclick="setGiftCategory('soaps', this)">Soaps</button>
+                <button class="gift-chip" onclick="setGiftCategory('concrete-decor', this)">Concrete Decor</button>
+              </div>
+            </div>
+
+            <h4 style="font-family: 'Poppins', sans-serif; margin-bottom: 12px; color: var(--text-dark);" id="gift-items-heading">Available Products</h4>
+            <div class="gift-items-grid" id="gift-items-grid">
+              <!-- Loaded by JS -->
+            </div>
+          </div>
+
+          <div class="gift-box-preview" id="gift-box-preview">
+            <div class="box-icon">🎁</div>
+            <h3>Your Gift Box</h3>
+            <div class="gift-box-items-list" id="gift-box-items-list">
+              <p style="color: #8a8a8a; font-size: 0.85rem; border: none; text-align: center; justify-content: center;">Click items to add them here</p>
+            </div>
+            <div style="margin-top: 16px; padding-top: 16px; border-top: 2px solid #e8e4de;">
+              <p style="font-weight: 600; font-size: 1.1rem; color: var(--text-dark);">Total: ₹<span id="gift-total" style="color: var(--terracotta);">0</span></p>
+            </div>
+            <button class="whatsapp-btn-luxury" style="margin-top: 16px; width: 100%; justify-content: center; background: linear-gradient(135deg, var(--terracotta) 0%, #8a3c1f 100%); box-shadow: 0 6px 20px rgba(184, 92, 56, 0.35);" onclick="orderGiftBox()">
+              <span>Checkout & Pay via Razorpay 🔒</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Option 3: Custom Name Candles -->
+      <div class="custom-option-card reveal" id="name-candles">
+        <h2>Custom Name Candles</h2>
+        <p>Get a candle personalized with your name, initials, or a special message.</p>
+
+        <div style="max-width: 500px;">
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label>Your Name / Text</label>
+            <input type="text" placeholder="Enter name or message" id="custom-name-input">
+          </div>
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label>Select Candle Type</label>
+            <select id="custom-name-type">
+              <option value="">-- Choose a type --</option>
+              <option value="Glass Jar Candle">Glass Jar Candle</option>
+              <option value="Wooden Base Candle">Wooden Base Candle</option>
+              <option value="Metal Urli Candle">Metal Urli Candle</option>
+              <option value="Tea Light Set">Tea Light Set</option>
+              <option value="Wax Sachet">Wax Sachet</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label>Special Instructions (optional)</label>
+            <textarea id="custom-name-notes" placeholder="Any color, font, or scent preferences..." style="padding: 12px 16px; border: 2px solid #e8e4de; border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: 0.9rem; min-height: 80px; resize: vertical; width: 100%;"></textarea>
+          </div>
+          <button class="whatsapp-btn-luxury" onclick="submitNameCandle()">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            <span>Enquire Price on WhatsApp</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Option 4: Request to Owner -->
+      <div class="custom-option-card reveal" id="special-request">
+        <h2>Special Request</h2>
+        <p>Have something unique in mind? Send a request directly to Nupur and she'll make it happen!</p>
+
+        <div style="max-width: 500px;">
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label>Your Name</label>
+            <input type="text" placeholder="Enter your name" id="special-req-name">
+          </div>
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label>Phone / WhatsApp Number</label>
+            <input type="tel" placeholder="Enter your phone number" id="special-req-phone">
+          </div>
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label>Describe Your Request</label>
+            <textarea id="special-req-desc" placeholder="Tell us what you'd like — the more detail, the better!" style="padding: 12px 16px; border: 2px solid #e8e4de; border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: 0.9rem; min-height: 120px; resize: vertical; width: 100%;"></textarea>
+          </div>
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label>Upload Reference Image (optional)</label>
+            <input type="file" accept="image/*" style="padding: 8px;">
+          </div>
+          <button class="whatsapp-btn-luxury" onclick="submitSpecialRequest()">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            <span>Enquire Price on WhatsApp</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+
+      <!-- Newsletter Signup: The "Scent Club" -->
+      <div class="scent-club-card">
+        <div class="scent-club-header">
+          <div class="scent-club-badge">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h6l-5 4 2 7-6-4-6 4 2-7-5-4h6z"/></svg>
+            <span>THE SCENT CLUB</span>
+          </div>
+          <h3 class="scent-club-title">Join The Scent Club</h3>
+          <p class="scent-club-desc">
+            Subscribe for exclusive artisanal candle drops, secret seasonal scent reveals, candle care rituals, and enjoy <strong>10% off</strong> your first handcrafted order.
+          </p>
+        </div>
+
+        <form class="scent-club-form" id="scent-club-form" onsubmit="handleScentClubSubmit(event)">
+          <div class="scent-club-input-wrap">
+            <span class="scent-club-input-icon">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </span>
+            <input type="email" id="scent-club-email" class="scent-club-input" placeholder="Enter your email address..." required autocomplete="email">
+            <button type="submit" class="scent-club-btn" id="scent-club-submit-btn">
+              <span>Join The Club</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </div>
+          <div class="scent-club-msg" id="scent-club-msg"></div>
+        </form>
+
+        <div class="scent-club-perks">
+          <div class="scent-club-perk">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>10% Off First Order</span>
+          </div>
+          <div class="scent-club-perk">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Secret Seasonal Batches</span>
+          </div>
+          <div class="scent-club-perk">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Artisanal Candle Care Guides</span>
+          </div>
+          <div class="scent-club-perk">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>No Spam Ever</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-divider"></div>
+
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo"><h1>Earthen Beauty</h1><span>by Nupur</span></div>
+          <p>Handcrafted candles and home fragrances made with love.</p>
+        </div>
+        <div>
+          <h4>Quick Links</h4>
+          <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="shop.html">Shop</a>
+            <a href="customizable.html">Customize</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+          </div>
+        </div>
+        <div>
+          <h4>Categories</h4>
+          <div class="footer-links">
+            <a href="shop.html?cat=candles">Candles</a>
+            <a href="shop.html?cat=diffusers">Diffusers</a>
+            <a href="shop.html?cat=mist-spray">Mist & Spray</a>
+          </div>
+        </div>
+        <div>
+          <h4>Follow Us</h4>
+          <div class="social-links">
+            <a href="https://www.instagram.com/earthenbeautyby_nupur?igsi=MTRsZjdsZHhod2sxYQ==" target="_blank" title="Instagram" aria-label="Instagram">
+              <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a href="https://www.facebook.com/share/1TgJrbMZ4m/" target="_blank" title="Facebook" aria-label="Facebook">
+              <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="https://wa.me/918296891802" target="_blank" title="WhatsApp" aria-label="WhatsApp">
+              <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© <span id="current-year"></span> Earthen Beauty by Nupur. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/motion-effects.js"></script>
+
+  <script>
+    // Selected base for custom design
+    var selectedBase = null;
+    // Gift box items
+    var giftBoxItems = [];
+    // Active category for gift box
+    var currentGiftCat = "all";
+
+    // Select base type
+    function selectBase(element, baseType) {
+      var allBases = document.querySelectorAll(".base-option");
+      allBases.forEach(function(b) { b.classList.remove("selected"); });
+
+      element.classList.add("selected");
+      selectedBase = baseType;
+    }
+
+    // Show file name after upload
+    function showFileName(input) {
+      var filenameEl = document.getElementById("upload-filename");
+      if (input.files.length > 0 && filenameEl) {
+        filenameEl.textContent = "Selected: " + input.files[0].name;
+      }
+    }
+
+    // Submit custom design
+    function submitCustomDesign() {
+      if (!selectedBase) {
+        alert("Please select a base first!");
+        return;
+      }
+      var notes = document.getElementById("custom-design-notes").value || "No additional notes";
+
+      // Record to database for admin portal inquiries
+      var quoteEndpoint = (typeof getEbApiUrl === "function") ? getEbApiUrl("/api/custom-quotes") : "/api/custom-quotes";
+      fetch(quoteEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: "Custom Design Request",
+          product_interest: "Custom Candle: " + selectedBase,
+          quantity: 1,
+          occasion: "Bespoke Customization",
+          notes: notes
+        })
+      }).catch(function(e) { console.warn("Could not record custom design quote to backend", e); });
+
+      var msg = "Hi Nupur! I'd like to enquire the price for a *Custom Design Candle*:%0A- *Base Selected:* " + encodeURIComponent(selectedBase) + "%0A- *My Custom Notes:* " + encodeURIComponent(notes) + "%0A%0APlease let me know the price and creation timeline!";
+      window.open("https://wa.me/918296891802?text=" + msg, "_blank");
+    }
+
+    // Category filter for gift box
+    function setGiftCategory(catId, btn) {
+      currentGiftCat = catId;
+      document.querySelectorAll(".gift-chip").forEach(function(c) { c.classList.remove("active"); });
+      if (btn) btn.classList.add("active");
+      filterGiftItems();
+    }
+
+    // Filter and render gift items
+    function filterGiftItems() {
+      var grid = document.getElementById("gift-items-grid");
+      if (!grid) return;
+
+      var query = (document.getElementById("gift-search-input").value || "").toLowerCase().trim();
+
+      var list = products.slice();
+
+      // Category filter
+      if (currentGiftCat !== "all") {
+        list = list.filter(function(p) { return p.category === currentGiftCat; });
+      }
+
+      // Search query filter
+      if (query) {
+        list = list.filter(function(p) {
+          var nameMatch = p.name.toLowerCase().indexOf(query) !== -1;
+          var catMatch = p.category.toLowerCase().indexOf(query) !== -1;
+          var subMatch = (p.subcategory || "").toLowerCase().indexOf(query) !== -1;
+          return nameMatch || catMatch || subMatch;
+        });
+      } else if (currentGiftCat === "all") {
+        // Initial view with 1-2 representative items from each category for clean presentation
+        var initialList = [];
+        var sampleIds = [6, 14, 21, 29, 36, 44, 46, 52, 54, 57, 63, 67, 72, 75];
+        initialList = products.filter(function(p) { return sampleIds.indexOf(p.id) !== -1; });
+        list = initialList.length > 0 ? initialList : products.slice(0, 14);
+      }
+
+      renderGiftItemsList(list);
+    }
+
+    // Render list into DOM
+    function renderGiftItemsList(list) {
+      var grid = document.getElementById("gift-items-grid");
+      grid.innerHTML = "";
+
+      if (list.length === 0) {
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-light); padding: 30px 0;">No products found. Try a different search term!</p>';
+        return;
+      }
+
+      list.forEach(function(product) {
+        var item = document.createElement("div");
+        var isAdded = giftBoxItems.some(function(i) { return i.id === product.id; });
+        item.className = "gift-item" + (isAdded ? " added" : "");
+        item.setAttribute("data-id", product.id);
+
+        item.innerHTML =
+          '<div class="gift-item-check">✓</div>' +
+          '<div class="gift-item-img-wrap">' +
+            '<img src="' + product.image + '" alt="' + product.name + '">' +
+          '</div>' +
+          '<h5>' + product.name + '</h5>' +
+          '<p class="gift-item-price">₹' + product.price + '</p>';
+
+        item.onclick = function() {
+          toggleGiftItem(product, item);
+        };
+
+        grid.appendChild(item);
+      });
+
+      if (window.animateProductGrid) {
+        window.animateProductGrid(grid);
+      }
+    }
+
+    // Toggle item in gift box
+    function toggleGiftItem(product, element) {
+      var index = giftBoxItems.findIndex(function(i) { return i.id === product.id; });
+
+      if (index > -1) {
+        giftBoxItems.splice(index, 1);
+        element.classList.remove("added");
+      } else {
+        giftBoxItems.push(product);
+        element.classList.add("added");
+      }
+
+      updateGiftBoxPreview();
+    }
+
+    // Remove from preview list directly
+    function removeGiftItem(productId) {
+      var index = giftBoxItems.findIndex(function(i) { return i.id === productId; });
+      if (index > -1) {
+        giftBoxItems.splice(index, 1);
+      }
+      // Unhighlight card in grid if visible
+      var card = document.querySelector('.gift-item[data-id="' + productId + '"]');
+      if (card) card.classList.remove("added");
+
+      updateGiftBoxPreview();
+    }
+
+    // Update gift box preview
+    function updateGiftBoxPreview() {
+      var list = document.getElementById("gift-box-items-list");
+      var totalEl = document.getElementById("gift-total");
+
+      if (!list) return;
+
+      if (giftBoxItems.length === 0) {
+        list.innerHTML = '<p style="color: #8a8a8a; font-size: 0.85rem; border: none; text-align: center; justify-content: center;">Click items to add them here</p>';
+        if (totalEl) totalEl.textContent = "0";
+        return;
+      }
+
+      list.innerHTML = "";
+      var total = 0;
+
+      giftBoxItems.forEach(function(item) {
+        var p = document.createElement("p");
+        p.innerHTML =
+          '<span>' + item.name + '</span>' +
+          '<span>₹' + item.price + ' <button class="gift-box-remove-btn" onclick="removeGiftItem(' + item.id + ')" title="Remove">✕</button></span>';
+        list.appendChild(p);
+        total += item.price;
+      });
+
+      if (totalEl) totalEl.textContent = total;
+    }
+
+    // Order gift box (Via Razorpay + Shiprocket)
+    function orderGiftBox() {
+      if (giftBoxItems.length === 0) {
+        alert("Please select at least one item for your gift box!");
+        return;
+      }
+
+      var total = giftBoxItems.reduce(function(sum, i) { return sum + i.price; }, 0);
+      var customOrderData = {
+        items: giftBoxItems.map(function(i) {
+          return { id: i.id, name: "Gift Box: " + i.name, price: i.price, quantity: 1 };
+        }),
+        subtotal: total
+      };
+
+      var token = (typeof getCustomerToken === "function") ? getCustomerToken() : null;
+      if (!token) {
+        pendingCheckoutResume = true;
+        window.__customCheckoutData = customOrderData;
+        if (typeof openCustomerAuthModal === "function") {
+          openCustomerAuthModal("register");
+          var sub = document.getElementById("auth-modal-subtitle");
+          if (sub) sub.textContent = "Please create an account or sign in to complete your gift box order & delivery.";
+        } else {
+          alert("Please sign in to proceed with checkout.");
+        }
+        return;
+      }
+
+      if (typeof openDeliveryAddressModal === "function") {
+        openDeliveryAddressModal(customOrderData);
+      }
+    }
+
+    // Submit name candle (Enquire Price on WhatsApp + Record to DB)
+    function submitNameCandle() {
+      var name = document.getElementById("custom-name-input").value.trim();
+      var type = document.getElementById("custom-name-type").value;
+      var notes = document.getElementById("custom-name-notes").value.trim();
+
+      if (!name) {
+        alert("Please enter a name or message!");
+        return;
+      }
+      if (!type) {
+        alert("Please select a candle type!");
+        return;
+      }
+
+      // Record to database for admin portal inquiries
+      var quoteEndpoint = (typeof getEbApiUrl === "function") ? getEbApiUrl("/api/custom-quotes") : "/api/custom-quotes";
+      fetch(quoteEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: "Name Candle Request (" + name + ")",
+          product_interest: "Name Candle: " + type,
+          quantity: 1,
+          occasion: "Personalized Gift",
+          notes: "Inscription: " + name + (notes ? " | Notes: " + notes : "")
+        })
+      }).catch(function(e) { console.warn("Could not record name candle quote to backend", e); });
+
+      var msg = "Hi Nupur! I'd like to enquire the price for a *Custom Name Candle*:%0A- *Name / Inscription:* " + encodeURIComponent(name) + "%0A- *Candle Type:* " + encodeURIComponent(type) + (notes ? "%0A- *Special Instructions:* " + encodeURIComponent(notes) : "") + "%0A%0APlease let me know the price and customization options!";
+      window.open("https://wa.me/918296891802?text=" + msg, "_blank");
+    }
+
+    // Submit special request (Enquire Price on WhatsApp + Record to DB)
+    function submitSpecialRequest() {
+      var name = document.getElementById("special-req-name").value.trim();
+      var phone = document.getElementById("special-req-phone").value.trim();
+      var desc = document.getElementById("special-req-desc").value.trim();
+
+      if (!name || !desc) {
+        alert("Please provide your name and describe your request!");
+        return;
+      }
+
+      // Record to DB asynchronously
+      var quoteEndpoint = (typeof getEbApiUrl === "function") ? getEbApiUrl("/api/custom-quotes") : "/api/custom-quotes";
+      fetch(quoteEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name,
+          phone: phone,
+          product_interest: 'Special Custom Design Request',
+          quantity: 1,
+          occasion: 'Bespoke Request',
+          notes: desc
+        })
+      }).catch(function(e) { console.warn('Could not record custom quote to backend', e); });
+
+      var msg = "Hi Nupur! I'd like to enquire the price for a *Special Custom Request*:%0A- *My Name:* " + encodeURIComponent(name) + (phone ? "%0A- *Phone:* " + encodeURIComponent(phone) : "") + "%0A- *Request Details:* " + encodeURIComponent(desc) + "%0A%0APlease let me know the pricing and how we can bring this to life!";
+      window.open("https://wa.me/918296891802?text=" + msg, "_blank");
+    }
+
+    // ===================================
+    // BULK ORDERS LOGIC
+    // ===================================
+    var activeBulkFilter = "all";
+
+    function filterBulkCategory(tag, btnElement) {
+      activeBulkFilter = tag;
+      if (btnElement) {
+        var chips = btnElement.parentElement.querySelectorAll(".gift-chip");
+        chips.forEach(function(c) { c.classList.remove("active"); });
+        btnElement.classList.add("active");
+      }
+      renderBulkProducts();
+    }
+
+    function renderBulkProducts() {
+      var grid = document.getElementById("bulk-products-grid");
+      if (!grid) return;
+
+      var list = (typeof bulkProducts !== "undefined") ? bulkProducts : [];
+      if (activeBulkFilter !== "all") {
+        list = list.filter(function(p) { return p.tag === activeBulkFilter; });
+      }
+
+      grid.innerHTML = "";
+
+      if (list.length === 0) {
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-light); padding: 40px 0;">No bulk products found in this category.</p>';
+        return;
+      }
+
+      list.forEach(function(product) {
+        var card = document.createElement("div");
+        card.className = "bulk-card";
+        card.setAttribute("id", "card-" + product.id);
+
+        var featuresHtml = "";
+        if (product.features && product.features.length > 0) {
+          featuresHtml = '<ul class="bulk-features">' +
+            product.features.map(function(f) {
+              return '<li><span class="check-icon">✓</span> ' + f + '</li>';
+            }).join("") +
+          '</ul>';
+        }
+
+        var defaultQty = product.defaultQty || product.minQty || 25;
+        var minQty = product.minQty || 15;
+
+        card.innerHTML =
+          '<div class="bulk-card-img-wrap">' +
+            '<span class="bulk-tag">' + product.tag + '</span>' +
+            '<img src="' + product.image + '" onerror="this.onerror=null; this.src=\'' + product.fallbackImage + '\';" alt="' + product.name + '">' +
+          '</div>' +
+          '<div class="bulk-card-body">' +
+            '<h3>' + product.name + '</h3>' +
+            '<p class="bulk-card-desc">' + product.description + '</p>' +
+            featuresHtml +
+            '<div class="bulk-customizer-box">' +
+              '<div class="bulk-qty-label">' +
+                '<span class="bulk-qty-title">Select Quantity</span>' +
+                '<span class="bulk-qty-badge">Min. ' + minQty + ' pcs</span>' +
+              '</div>' +
+              '<div class="bulk-stepper-capsule">' +
+                '<button type="button" class="bulk-step-btn minus" onclick="changeBulkQty(\'' + product.id + '\', -5, ' + minQty + ')" aria-label="Decrease quantity">' +
+                  '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>' +
+                '</button>' +
+                '<div class="bulk-step-val-wrap">' +
+                  '<input type="number" id="qty-' + product.id + '" class="bulk-step-input" value="' + defaultQty + '" min="' + minQty + '" step="5" onchange="validateBulkQty(\'' + product.id + '\', ' + minQty + ')">' +
+                  '<span class="bulk-step-unit">pcs</span>' +
+                '</div>' +
+                '<button type="button" class="bulk-step-btn plus" onclick="changeBulkQty(\'' + product.id + '\', 5, ' + minQty + ')" aria-label="Increase quantity">' +
+                  '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>' +
+                '</button>' +
+              '</div>' +
+              '<div class="bulk-qty-presets-grid">' +
+                '<button type="button" class="bulk-preset-pill' + (defaultQty === 25 ? ' active' : '') + '" data-qty="25" onclick="setBulkQty(\'' + product.id + '\', 25, ' + minQty + ')">25</button>' +
+                '<button type="button" class="bulk-preset-pill' + (defaultQty === 50 ? ' active' : '') + '" data-qty="50" onclick="setBulkQty(\'' + product.id + '\', 50, ' + minQty + ')">50</button>' +
+                '<button type="button" class="bulk-preset-pill' + (defaultQty === 100 ? ' active' : '') + '" data-qty="100" onclick="setBulkQty(\'' + product.id + '\', 100, ' + minQty + ')">100</button>' +
+                '<button type="button" class="bulk-preset-pill' + (defaultQty === 250 ? ' active' : '') + '" data-qty="250" onclick="setBulkQty(\'' + product.id + '\', 250, ' + minQty + ')">250</button>' +
+                '<button type="button" class="bulk-preset-pill' + (defaultQty === 500 ? ' active' : '') + '" data-qty="500" onclick="setBulkQty(\'' + product.id + '\', 500, ' + minQty + ')">500+</button>' +
+              '</div>' +
+              '<button type="button" class="bulk-options-bar" onclick="toggleBulkOptions(\'' + product.id + '\')" id="btn-toggle-' + product.id + '">' +
+                '<span class="bulk-options-bar-left">' +
+                  '<span class="bulk-sparkle-icon">✨</span>' +
+                  '<span>Customise Scent & Branding</span>' +
+                '</span>' +
+                '<span class="bulk-options-badge" id="arrow-' + product.id + '">Details ▾</span>' +
+              '</button>' +
+              '<div class="bulk-options-details" id="opts-' + product.id + '" style="display: none;">' +
+                '<div class="bulk-field">' +
+                  '<label>Occasion / Event</label>' +
+                  '<select id="occasion-' + product.id + '">' +
+                    '<option value="Wedding Favors">Wedding Favors & Celebrations</option>' +
+                    '<option value="Corporate Gifting">Corporate Gifting & Executive Hampers</option>' +
+                    '<option value="Festive / Diwali">Festive / Diwali Celebrations</option>' +
+                    '<option value="Baby Shower / Return Gifts">Baby Shower & Return Favors</option>' +
+                    '<option value="Private Celebration">Anniversary & Private Events</option>' +
+                  '</select>' +
+                '</div>' +
+                '<div class="bulk-field">' +
+                  '<label>Fragrance Theme</label>' +
+                  '<select id="scent-' + product.id + '">' +
+                    '<option value="Assorted Best Sellers">Assorted Best Sellers Blend</option>' +
+                    '<option value="Dutch Lavender & Calming">Dutch Lavender & Calming</option>' +
+                    '<option value="Sandalwood & Kesar Chandan">Sandalwood & Kesar Chandan</option>' +
+                    '<option value="Jasmine & Floral Bloom">Night Blooming Jasmine</option>' +
+                    '<option value="Custom Scent Request">Custom Signature Fragrance</option>' +
+                  '</select>' +
+                '</div>' +
+                '<div class="bulk-field">' +
+                  '<label>Custom Tags / Ribbon Branding</label>' +
+                  '<select id="branding-' + product.id + '">' +
+                    '<option value="Yes, Custom Names/Logo Tag Required">Yes, Custom Name/Logo Tags & Ribbon</option>' +
+                    '<option value="Standard Elegant Packaging">Standard Elegant Gift Packaging</option>' +
+                  '</select>' +
+                '</div>' +
+                '<div class="bulk-field">' +
+                  '<label>Required Event Date (optional)</label>' +
+                  '<input type="date" id="date-' + product.id + '">' +
+                '</div>' +
+                '<div class="bulk-field">' +
+                  '<label>Special Theme Notes / Instructions</label>' +
+                  '<input type="text" id="notes-' + product.id + '" placeholder="e.g. Pastel pink colors, initials \'A & R\'...">' +
+                '</div>' +
+              '</div>' +
+              '<button type="button" class="bulk-enquire-btn" onclick="enquireBulkProduct(\'' + product.id + '\')">' +
+                '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">' +
+                  '<path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.97.53 1.777.82 2.796.82 3.18 0 5.767-2.586 5.768-5.766 0-3.18-2.587-5.766-5.768-5.766zm9.969 5.766c0 5.514-4.486 10-10 10-1.808 0-3.5-.483-4.962-1.326l-5.038 1.326 1.35-4.921c-.958-1.526-1.52-3.328-1.52-5.079 0-5.514 4.486-10 10-10s10 4.486 10 10z"/>' +
+                '</svg>' +
+                '<span>Enquire Price on WhatsApp</span>' +
+              '</button>' +
+            '</div>' +
+          '</div>';
+
+        grid.appendChild(card);
+      });
+
+      if (window.animateProductGrid) {
+        window.animateProductGrid(grid);
+      }
+    }
+
+    function updatePresetHighlight(productId, currentVal) {
+      var card = document.getElementById("card-" + productId);
+      if (!card) return;
+      var pills = card.querySelectorAll(".bulk-preset-pill");
+      pills.forEach(function(pill) {
+        var pVal = parseInt(pill.getAttribute("data-qty"), 10);
+        if (pVal === currentVal) {
+          pill.classList.add("active");
+        } else {
+          pill.classList.remove("active");
+        }
+      });
+    }
+
+    function changeBulkQty(productId, delta, minQty) {
+      var input = document.getElementById("qty-" + productId);
+      if (!input) return;
+      var val = parseInt(input.value, 10) || minQty;
+      val += delta;
+      if (val < minQty) val = minQty;
+      input.value = val;
+      updatePresetHighlight(productId, val);
+    }
+
+    function setBulkQty(productId, qty, minQty) {
+      var input = document.getElementById("qty-" + productId);
+      if (!input) return;
+      if (qty < minQty) qty = minQty;
+      input.value = qty;
+      updatePresetHighlight(productId, qty);
+    }
+
+    function validateBulkQty(productId, minQty) {
+      var input = document.getElementById("qty-" + productId);
+      if (!input) return;
+      var val = parseInt(input.value, 10);
+      if (isNaN(val) || val < minQty) {
+        val = minQty;
+        input.value = minQty;
+      }
+      updatePresetHighlight(productId, val);
+    }
+
+    function toggleBulkOptions(productId) {
+      var opts = document.getElementById("opts-" + productId);
+      var arrow = document.getElementById("arrow-" + productId);
+      if (!opts) return;
+      if (opts.style.display === "none") {
+        opts.style.display = "flex";
+        if (arrow) arrow.textContent = "Close ▴";
+      } else {
+        opts.style.display = "none";
+        if (arrow) arrow.textContent = "Details ▾";
+      }
+    }
+
+    function enquireBulkProduct(productId) {
+      var product = (typeof bulkProducts !== "undefined") ? bulkProducts.find(function(p) { return p.id === productId; }) : null;
+      if (!product) return;
+
+      var qtyInput = document.getElementById("qty-" + productId);
+      var qty = qtyInput ? parseInt(qtyInput.value, 10) : (product.defaultQty || product.minQty);
+
+      var occasionEl = document.getElementById("occasion-" + productId);
+      var occasion = occasionEl ? occasionEl.value : "General Event";
+
+      var scentEl = document.getElementById("scent-" + productId);
+      var scent = scentEl ? scentEl.value : "Assorted Best Sellers";
+
+      var brandingEl = document.getElementById("branding-" + productId);
+      var branding = brandingEl ? brandingEl.value : "Yes";
+
+      var dateEl = document.getElementById("date-" + productId);
+      var dateVal = dateEl ? dateEl.value : "";
+
+      var notesEl = document.getElementById("notes-" + productId);
+      var notesVal = notesEl ? notesEl.value.trim() : "";
+
+      // Post to database for admin portal
+      var quoteEndpoint = (typeof getEbApiUrl === "function") ? getEbApiUrl("/api/custom-quotes") : "/api/custom-quotes";
+      fetch(quoteEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: 'Bulk Customer',
+          product_interest: product.name,
+          quantity: qty,
+          occasion: occasion,
+          fragrance_theme: scent,
+          custom_branding: branding,
+          required_date: dateVal,
+          notes: notesVal
+        })
+      }).catch(function(e) { console.warn('Could not record bulk quote to backend', e); });
+
+      var msg = "Hello Nupur! 🕯️ I would like to enquire about a *Bulk Order* from Earthen Beauty:%0A%0A" +
+        "📦 *Product:* " + encodeURIComponent(product.name) + "%0A" +
+        "🔢 *Quantity Required:* " + encodeURIComponent(qty) + " pieces%0A" +
+        "🎉 *Occasion / Event:* " + encodeURIComponent(occasion) + "%0A" +
+        "🌸 *Fragrance Theme:* " + encodeURIComponent(scent) + "%0A" +
+        "🏷️ *Custom Logo / Tags:* " + encodeURIComponent(branding) + "%0A" +
+        (dateVal ? "📅 *Required Date:* " + encodeURIComponent(dateVal) + "%0A" : "") +
+        (notesVal ? "📝 *Special Notes:* " + encodeURIComponent(notesVal) + "%0A" : "") +
+        "%0A*Could you please share the wholesale pricing, sample options, and production timeline? Thank you!*";
+
+      window.open("https://wa.me/918296891802?text=" + msg, "_blank");
+    }
+
+    function submitGeneralBulkQuote() {
+      var name = document.getElementById("custom-bulk-name").value.trim() || "Wholesale Guest";
+      var product = document.getElementById("custom-bulk-product").value.trim() || "Bespoke Bulk Order";
+      var qty = parseInt(document.getElementById("custom-bulk-qty").value.trim() || "50", 10);
+      var occasion = document.getElementById("custom-bulk-occasion").value;
+      var date = document.getElementById("custom-bulk-date").value;
+      var branding = document.getElementById("custom-bulk-branding").value;
+      var notes = document.getElementById("custom-bulk-notes").value.trim();
+
+      // Post to database for admin portal
+      var quoteEndpoint = (typeof getEbApiUrl === "function") ? getEbApiUrl("/api/custom-quotes") : "/api/custom-quotes";
+      fetch(quoteEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name,
+          product_interest: product,
+          quantity: qty,
+          occasion: occasion,
+          custom_branding: branding,
+          required_date: date,
+          notes: notes
+        })
+      }).catch(function(e) { console.warn('Could not record bulk quote to backend', e); });
+
+      var msg = "Hello Nupur! 🕯️ I would like to request a *Custom Bulk Order Quotation*:%0A%0A" +
+        (name ? "👤 *Name:* " + encodeURIComponent(name) + "%0A" : "") +
+        "📦 *Product / Theme Interest:* " + encodeURIComponent(product) + "%0A" +
+        "🔢 *Estimated Quantity:* " + encodeURIComponent(qty) + " pieces%0A" +
+        "🎉 *Occasion:* " + encodeURIComponent(occasion) + "%0A" +
+        "🏷️ *Packaging / Branding:* " + encodeURIComponent(branding) + "%0A" +
+        (date ? "📅 *Required Date:* " + encodeURIComponent(date) + "%0A" : "") +
+        (notes ? "📝 *Special Requirements:* " + encodeURIComponent(notes) + "%0A" : "") +
+        "%0APlease share available options and wholesale quote. Thank you!";
+
+      window.open("https://wa.me/918296891802?text=" + msg, "_blank");
+    }
+
+    // Initialize
+    document.addEventListener("DOMContentLoaded", function() {
+      filterGiftItems();
+      renderBulkProducts();
+    });
+
+    window.addEventListener("earthen:products-updated", function() {
+      filterGiftItems();
+    });
+  </script>
+
+</body>
+</html>

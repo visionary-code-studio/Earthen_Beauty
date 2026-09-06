@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Product details - Earthen Beauty by Nupur">
+  <title>Product | Earthen Beauty by Nupur</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    /* Product Detail Page Styles */
+    .product-detail-section {
+      padding: 120px 0 80px;
+      min-height: 80vh;
+    }
+
+    .product-detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .product-detail-image {
+      background: var(--warm-cream);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      min-height: 450px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .product-detail-image img {
+      max-width: 100%;
+      max-height: 500px;
+      object-fit: contain;
+    }
+
+    .product-detail-info {
+      padding: 20px 0;
+    }
+
+    .product-breadcrumb {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-bottom: 16px;
+    }
+
+    .product-breadcrumb a {
+      color: var(--terracotta);
+      transition: color 0.3s ease;
+    }
+
+    .product-breadcrumb a:hover {
+      color: var(--terracotta-deep);
+    }
+
+    .product-detail-name {
+      font-size: 2.2rem;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .product-detail-category {
+      font-size: 0.9rem;
+      color: var(--terracotta);
+      font-weight: 500;
+      margin-bottom: 20px;
+      display: inline-block;
+      background: rgba(184, 92, 56, 0.1);
+      padding: 4px 14px;
+      border-radius: 20px;
+    }
+
+    .product-detail-price {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 24px;
+    }
+
+    .product-detail-price span {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      font-weight: 400;
+      margin-left: 8px;
+    }
+
+    .product-detail-desc {
+      color: var(--text-light);
+      line-height: 1.8;
+      margin-bottom: 28px;
+      font-size: 0.95rem;
+    }
+
+    .product-highlights {
+      margin-bottom: 32px;
+      padding: 24px;
+      background: var(--warm-cream);
+      border-radius: var(--radius);
+      border-left: 4px solid var(--terracotta);
+    }
+
+    .product-highlights h4 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 14px;
+    }
+
+    .product-highlights ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .product-highlights ul li {
+      padding: 6px 0;
+      font-size: 0.9rem;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .product-highlights ul li::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--terracotta);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .product-detail-actions {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 32px;
+    }
+
+    .qty-selector {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 2px solid #e8e4de;
+      border-radius: 50px;
+      padding: 6px 16px;
+    }
+
+    .qty-selector button {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--text-dark);
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.3s ease;
+    }
+
+    .qty-selector button:hover {
+      color: var(--terracotta);
+    }
+
+    .qty-selector span {
+      font-size: 1.1rem;
+      font-weight: 600;
+      min-width: 20px;
+      text-align: center;
+    }
+
+    .detail-add-btn {
+      flex: 1;
+      padding: 14px 32px;
+      background: var(--terracotta);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .detail-add-btn:hover {
+      background: var(--terracotta-deep);
+      box-shadow: var(--shadow-glow);
+      transform: translateY(-2px);
+    }
+
+    .detail-whatsapp-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 13px 26px;
+      background: linear-gradient(135deg, #25D366 0%, #15803d 100%);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
+    }
+
+    .detail-whatsapp-btn svg {
+      flex-shrink: 0;
+      fill: currentColor;
+    }
+
+    .detail-whatsapp-btn:hover {
+      background: linear-gradient(135deg, #2ae06f 0%, #166534 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5);
+    }
+
+    .detail-whatsapp-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+    }
+
+    /* Related Products */
+    .related-section {
+      padding: 60px 0 80px;
+      background: var(--warm-cream);
+    }
+
+    /* Responsive */
+    @media screen and (max-width: 768px) {
+      .product-detail-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .product-detail-image {
+        min-height: 300px;
+      }
+
+      .product-detail-name {
+        font-size: 1.6rem;
+      }
+
+      .product-detail-price {
+        font-size: 1.5rem;
+      }
+
+      .product-detail-actions {
+        flex-direction: column;
+      }
+
+      .detail-add-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cart Overlay & Panel -->
+  <div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
+  <div class="cart-panel" id="cart-panel">
+    <div class="cart-header">
+      <h3>Your Cart</h3>
+      <button class="cart-close-btn" onclick="closeCart()">X</button>
+    </div>
+    <div class="cart-body">
+      <div class="empty-cart-msg" id="empty-cart-msg">
+        <p style="font-size: 1.2rem; margin-bottom: 8px;">Your cart is empty</p>
+        <p style="font-size: 0.85rem; color: #aaa;">Add some warmth to your cart!</p>
+      </div>
+      <div id="cart-items"></div>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-summary-row">
+        <span>Subtotal</span>
+        <span id="cart-subtotal">₹0</span>
+      </div>
+      <div class="cart-summary-row shipping">
+        <span>Shipping Fees</span>
+        <span id="cart-shipping">₹90</span>
+      </div>
+      <div class="cart-total-row">
+        <span>Total</span>
+        <span class="cart-total-price" id="cart-total">₹0</span>
+      </div>
+      <button class="checkout-btn" id="cart-checkout-btn" onclick="initiateCheckout()">
+        <span>Proceed to Checkout (Razorpay 🔒)</span>
+      </button>
+      <div class="cart-trust-badges">
+        <span>💳 Razorpay Secure</span> • <span>🚚 Shiprocket Fast Delivery</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Modal Overlay -->
+  <div class="search-overlay" id="search-overlay" onclick="closeSearchModal(event)">
+    <div class="search-modal-content" onclick="event.stopPropagation()">
+      <div class="search-modal-header">
+        <span style="font-size: 1.2rem; color: var(--terracotta);">🔍</span>
+        <input type="text" id="global-search-input" placeholder="Type to search candles, diffusers, mists..." oninput="handleGlobalSearch(this.value)">
+        <button class="search-modal-close" onclick="closeSearchModal()" title="Close">✕</button>
+      </div>
+      <div class="search-modal-results" id="search-modal-results">
+        <!-- Live search results rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header scrolled" id="header">
+    <div class="container">
+
+      <!-- Brand Logo (Left) -->
+      <a href="index.html" class="logo">
+        <h1>Earthen Beauty</h1>
+        <span>by Nupur</span>
+      </a>
+
+      <!-- Floating Pill Navbar (Reference Layout - Clean Text Links) -->
+      <nav class="nav-center">
+        <ul class="nav-links nav-pill-capsule" id="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="shop.html" class="active">Shop</a></li>
+          <li><a href="customizable.html">Customize</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Right Header Actions (Cart(0), Wishlist, Account, Search) matching reference -->
+      <div class="header-actions">
+        <button class="cart-btn" onclick="toggleCart()" title="View Cart">
+          <svg class="cart-icon-svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="cart-label-text">Cart(<span id="cart-count">0</span>)</span>
+        </button>
+
+        <button type="button" class="header-action-btn profile-btn" id="header-profile-btn" onclick="handleProfileBtnClick(event)" title="Account & Sign In" aria-label="Account">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </button>
+
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Product Detail -->
+  <section class="product-detail-section">
+    <div class="container">
+      <div class="product-detail-grid" id="product-detail">
+        <!-- Loaded by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Products -->
+  <section class="related-section">
+    <div class="container">
+      <div class="section-title">
+        <h2>You May Also Like</h2>
+        <p>More from our handcrafted collection</p>
+      </div>
+      <div class="products-grid" id="related-products">
+        <!-- Loaded by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+
+      <!-- Newsletter Signup: The "Scent Club" -->
+      <div class="scent-club-card">
+        <div class="scent-club-header">
+          <div class="scent-club-badge">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h6l-5 4 2 7-6-4-6 4 2-7-5-4h6z"/></svg>
+            <span>THE SCENT CLUB</span>
+          </div>
+          <h3 class="scent-club-title">Join The Scent Club</h3>
+          <p class="scent-club-desc">
+            Subscribe for exclusive artisanal candle drops, secret seasonal scent reveals, candle care rituals, and enjoy <strong>10% off</strong> your first handcrafted order.
+          </p>
+        </div>
+
+        <form class="scent-club-form" id="scent-club-form" onsubmit="handleScentClubSubmit(event)">
+          <div class="scent-club-input-wrap">
+            <span class="scent-club-input-icon">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </span>
+            <input type="email" id="scent-club-email" class="scent-club-input" placeholder="Enter your email address..." required autocomplete="email">
+            <button type="submit" class="scent-club-btn" id="scent-club-submit-btn">
+              <span>Join The Club</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </div>
+          <div class="scent-club-msg" id="scent-club-msg"></div>
+        </form>
+
+        <div class="scent-club-perks">
+          <div class="scent-club-perk">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>10% Off First Order</span>
+          </div>
+          <div class="scent-club-perk">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Secret Seasonal Batches</span>
+          </div>
+          <div class="scent-club-perk">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Artisanal Candle Care Guides</span>
+          </div>
+          <div class="scent-club-perk">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>No Spam Ever</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-divider"></div>
+
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo"><h1>Earthen Beauty</h1><span>by Nupur</span></div>
+          <p>Handcrafted candles and home fragrances made with love.</p>
+        </div>
+        <div>
+          <h4>Quick Links</h4>
+          <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="shop.html">Shop</a>
+            <a href="customizable.html">Customize</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+          </div>
+        </div>
+        <div>
+          <h4>Categories</h4>
+          <div class="footer-links">
+            <a href="shop.html?cat=candles">Candles</a>
+            <a href="shop.html?cat=diffusers">Diffusers</a>
+            <a href="shop.html?cat=mist-spray">Mist & Spray</a>
+          </div>
+        </div>
+        <div>
+          <h4>Follow Us</h4>
+          <div class="social-links">
+            <a href="https://www.instagram.com/earthenbeautyby_nupur?igsi=MTRsZjdsZHhod2sxYQ==" target="_blank" title="Instagram" aria-label="Instagram">
+              <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a href="https://www.facebook.com/share/1TgJrbMZ4m/" target="_blank" title="Facebook" aria-label="Facebook">
+              <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="https://wa.me/918296891802" target="_blank" title="WhatsApp" aria-label="WhatsApp">
+              <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            </a>
+            <a href="https://www.facebook.com/share/1TgJrbMZ4m/" target="_blank" title="Facebook" aria-label="Facebook">
+              <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="https://wa.me/918296891802" target="_blank" title="WhatsApp" aria-label="WhatsApp">
+              <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; <span id="current-year"></span> Earthen Beauty by Nupur. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/motion-effects.js"></script>
+
+  <script>
+    var currentQty = 1;
+
+    // Creative descriptions based on product type
+    function getCreativeDescription(product) {
+      var name = product.name.toLowerCase();
+      var sub = product.subcategory;
+      var cat = product.category;
+
+      // Candles - Wooden Base
+      if (sub === "wooden-base") {
+        if (name.indexOf("cactus") > -1) return "A quirky, nature-inspired candle that brings a touch of desert charm to your space. The natural wooden base adds rustic warmth to any room.";
+        if (name.indexOf("rabdi") > -1) return "A festive favourite! This sweet-shaped candle captures the joy of Holi celebrations, making it a perfect seasonal gift.";
+        if (name.indexOf("marigold") > -1) return "Inspired by the vibrant marigold flower, this pot-style candle radiates warmth and is ideal for pooja rooms and festive decor.";
+        if (name.indexOf("shalpa") > -1) return "An elegant candle resting on a beautifully crafted wooden base. Its unique shape creates a stunning centrepiece for any occasion.";
+        if (name.indexOf("water lily") > -1) return "Inspired by the serenity of a lotus pond, this water lily candle on a wooden base brings calm and peace to your home.";
+        if (name.indexOf("rose") > -1) return "A timeless classic. This handcrafted rose candle on natural wood is perfect for romantic dinners or as a thoughtful gift.";
+        if (name.indexOf("teddy") > -1) return "An adorable teddy bear candle that makes a perfect gift for baby showers, birthdays, or just to brighten someone's day.";
+      }
+
+      // Candles - Glass Jar
+      if (sub === "glass-jar") {
+        if (name.indexOf("aqua") > -1) return "Dive into freshness with this cool, aquatic fragrance. Perfect for bathrooms and living spaces that need a burst of clean energy.";
+        if (name.indexOf("tea rose") > -1) return "A sophisticated British tea rose fragrance that fills your room with the elegance of an English garden in bloom.";
+        if (name.indexOf("meditation") > -1 || name.indexOf("calm") > -1) return "Find your inner peace with this calming fragrance, housed in a stunning diamond-cut glass jar. Perfect for meditation and yoga spaces.";
+        if (name.indexOf("plumeria") > -1) return "Transport yourself to a tropical paradise with the sweet, exotic fragrance of plumeria blossoms in a beautiful crystal jar.";
+        if (name.indexOf("beli") > -1) return "The enchanting fragrance of beli (jasmine) flowers captured in a gorgeous crystal jar. A true Indian classic.";
+        if (name.indexOf("gardenia") > -1) return "Let the rich, creamy scent of gardenia fill your home. This candle creates a luxurious atmosphere for any space.";
+        if (name.indexOf("kesar") > -1) return "A royal blend of saffron and sandalwood in a premium diamond jar. This fragrance is deeply rooted in Indian tradition and luxury.";
+        if (name.indexOf("lavender") > -1) return "Unwind after a long day with the timeless, soothing scent of lavender. A bedroom essential for peaceful nights.";
+        if (name.indexOf("jasmine") > -1) return "The intoxicating fragrance of night-blooming jasmine in a luxurious diamond jar. Fills your evening with exotic romance.";
+        if (name.indexOf("sandawood") > -1 || name.indexOf("sandalwood") > -1) return "Rich, woody, and deeply calming. This sandalwood candle is perfect for meditation, relaxation, or setting a warm ambience.";
+        if (name.indexOf("parle g") > -1) return "A fun, quirky candle inspired by India's favourite chai and biscuit combo! A unique conversation starter and a perfect gift.";
+        if (name.indexOf("victoria") > -1) return "Inspired by the misty freshness of waterfalls. This candle brings a refreshing, clean fragrance to your living space.";
+      }
+
+      // Candles - Urli
+      if (sub === "urli") {
+        if (name.indexOf("cherry") > -1) return "Delicate cherry blossoms meet traditional Indian urli design. A beautiful fusion of cultures that makes any space feel special.";
+        if (name.indexOf("lotus") > -1) return "The lotus symbolises purity and beauty. This urli candle is perfect for pooja rooms, entryways, and festive decorations.";
+        if (name.indexOf("sunflower") > -1) return "Bright and cheerful like a sunflower field. This urli candle brings positive energy and vibrant warmth to your home.";
+        if (name.indexOf("small") > -1) return "A compact, versatile urli candle that fits perfectly on small tables, shelves, and window sills. Small in size, big on charm.";
+      }
+
+      // Tea Lights
+      if (sub === "tea-light") {
+        if (name.indexOf("baby shower") > -1) return "Celebrate the arrival of a little one with these adorable tea lights. Perfect as baby shower favours or nursery decor.";
+        if (name.indexOf("butterfly") > -1) return "Delicate butterfly shapes that create magical shadows when lit. Perfect for garden parties and outdoor evenings.";
+        if (name.indexOf("dolphin") > -1) return "Playful dolphin-shaped tea light candle that brings ocean vibes to your space. Handcrafted with care, perfect for cosy ambient lighting.";
+        if (name.indexOf("lemongrass") > -1) return "Fresh lemongrass scented tea lights that naturally repel insects while filling your space with a clean, citrusy aroma.";
+        if (name.indexOf("rose") > -1) return "Luxurious rose-shaped tea lights that add romance and elegance to dinner tables and bedrooms.";
+        if (name.indexOf("shalpa") > -1) return "Unique shalpa bill shaped tea lights with intricate detail. A beautiful decorative choice for any occasion.";
+        if (name.indexOf("star") > -1) return "Twinkling star shapes that create a magical atmosphere. Perfect for festive decorations and night-time ambience.";
+        return "Classic tea light candles that provide a warm, gentle glow. Perfect for creating a cosy atmosphere anywhere in your home.";
+      }
+
+      // Decorative & Statue
+      if (sub === "decorative") {
+        if (name.indexOf("owl") > -1) return "This wise little owl candle is a symbol of knowledge and good luck. A charming addition to bookshelves and study tables.";
+        if (name.indexOf("blindfold") > -1 || name.indexOf("lady") > -1) return "An artistic, elegant lady candle that doubles as a sculptural decor piece. Adds sophistication to any room.";
+        if (name.indexOf("couple") > -1) return "Celebrate love with this romantic couple candle. An ideal anniversary, Valentine's Day, or wedding gift.";
+        if (name.indexOf("buddha") > -1) return "Five serene Buddha candles that bring peace, mindfulness, and zen energy to your meditation space or living room.";
+        if (name.indexOf("panda") > -1) return "An irresistibly cute panda candle that brings smiles to everyone. Perfect for kids' rooms or as a fun gift.";
+        if (name.indexOf("peony") > -1) return "A beautifully crafted peony flower candle with a gentle aromatic fragrance. Adds a touch of garden elegance indoors.";
+        if (name.indexOf("swan") > -1) return "A graceful swan candle symbolising beauty and elegance. Makes a stunning centrepiece for special occasions.";
+        if (name.indexOf("teddy") > -1) return "Everyone loves a teddy bear! This adorable candle is perfect for gifting to kids, partners, or anyone who needs a warm hug.";
+      }
+
+      // Mithai & Desserts
+      if (sub === "mithai") {
+        if (name.indexOf("cookie") > -1) return "These realistic cookie-shaped tea lights are a treat for the eyes! Perfect for kitchen decor, cafe vibes, or playful gifting.";
+        if (name.indexOf("heart") > -1) return "A heart-shaped dessert candle that's sweet in every way. The perfect romantic gift or table decoration.";
+        if (name.indexOf("rabdi") > -1) return "This festive rabdi-shaped candle captures the sweetness of Indian celebrations. A unique Holi special creation.";
+        if (name.indexOf("laddu") > -1) return "These realistic laddu candles look just like the real thing! A fun, festive addition to your Diwali or celebration decor.";
+        if (name.indexOf("parle") > -1) return "The iconic chai-biscuit duo in candle form! A nostalgic, quirky creation that makes everyone smile.";
+      }
+
+      // Diffusers
+      if (cat === "diffusers") {
+        if (name.indexOf("full set") > -1 || name.indexOf("ceramic") > -1) return "A complete aromatherapy set with a handmade ceramic diffuser, tea light candle, and wax melts. Everything you need for a fragrant home.";
+        if (name.indexOf("wax melt box") > -1) return "A premium collection of 20 unique wax melt fragrances. Explore different scents and find your favourites.";
+        if (name.indexOf("wax melt") > -1) return "A compact wax melt that releases long-lasting fragrance when heated. Perfect refill for your ceramic diffuser.";
+        return "A beautiful accessory for your ceramic diffuser. Use with wax melts for a continuous, gentle fragrance in your home.";
+      }
+
+      // Mist & Spray
+      if (cat === "mist-spray") {
+        if (name.indexOf("lavender") > -1) return "A calming Dutch lavender mist that refreshes your linens, pillows, and rooms. Spray before bedtime for restful sleep.";
+        if (name.indexOf("gardenia") > -1) return "A luxurious gardenia room mist that transforms your space with a fresh, floral fragrance. Perfect for living rooms and bedrooms.";
+        if (name.indexOf("voyage") > -1) return "An adventurous, invigorating fragrance that energises your space. Perfect for home offices and creative workspaces.";
+        if (name.indexOf("car") > -1) return "Keep your car smelling fresh and clean with this premium car freshener. Long-lasting fragrance for every drive.";
+        return "A refreshing room and linen mist that instantly transforms the atmosphere of any space.";
+      }
+
+      // Wax Sachet
+      if (cat === "wax-sachet") {
+        if (name.indexOf("ganesha") > -1) return "A beautifully crafted Lord Ganesha wax sachet that combines devotion with fragrance. Perfect for pooja rooms and car dashboards.";
+        if (name.indexOf("baby") > -1 && name.indexOf("sleeping") > -1) return "An adorable sleeping baby wax sachet that fills your nursery or bedroom with a gentle, soothing fragrance.";
+        if (name.indexOf("baby") > -1) return "A cute baby-themed wax sachet, perfect as a baby shower favour or nursery fragrance.";
+        if (name.indexOf("coffee") > -1) return "For coffee lovers! This roasted coffee wax sachet fills your space with the warm, inviting aroma of freshly brewed coffee.";
+        return "A beautifully handcrafted wax sachet infused with essential oils. Hang in wardrobes, cars, or rooms for lasting natural fragrance.";
+      }
+
+      // Soaps
+      if (cat === "soaps") {
+        return "A luxurious handmade soap set crafted with natural ingredients. Gentle on the skin and beautifully packaged for gifting.";
+      }
+
+      // Concrete Decor
+      if (cat === "concrete-decor") {
+        if (name.indexOf("bubble") > -1) return "A chic round bubble concrete tray designed with soft spherical edges. Ideal as a modern coaster for candles, perfumes, or delicate jewellery.";
+        if (name.indexOf("shankha") > -1) return "An exquisitely sculpted conch shell (shankha) concrete art piece. Doubles as a sacred decor element, candle stand, or vanity accent.";
+        if (name.indexOf("tray") > -1 || name.indexOf("wavy") > -1) return "A handcrafted wavy-edge cloud tray crafted from premium concrete. Elevates your vanity table, bedside, or coffee table decor.";
+        return "A minimalist, handcrafted concrete decor piece that adds modern elegance to your home. Each piece is unique and made with care.";
+      }
+
+      return "A beautifully handcrafted product from Earthen Beauty, made with care and attention to detail.";
+    }
+
+    // Get common selling points based on category
+    function getSellingPoints(product) {
+      var cat = product.category;
+
+      if (cat === "candles") {
+        return [
+          "Made with 100% pure imported soy wax",
+          "Long lasting, gentle fragrance",
+          "No chemical wax used",
+          "No synthetic oil blend",
+          "Only essential oil blend",
+          "Hand-poured with love and care",
+          "Clean, even burn with minimal soot",
+          "Eco-friendly and biodegradable"
+        ];
+      }
+
+      if (cat === "diffusers") {
+        return [
+          "Made with 100% pure imported soy wax",
+          "Long lasting, gentle fragrance",
+          "No chemical wax used",
+          "Only essential oil blend",
+          "Handcrafted with premium materials",
+          "Creates a calming, aromatic atmosphere"
+        ];
+      }
+
+      if (cat === "mist-spray") {
+        return [
+          "Made with essential oil blend",
+          "No harsh chemicals or synthetic fragrances",
+          "Long lasting, gentle fragrance",
+          "Safe for use around children and pets",
+          "Refreshes fabrics, rooms, and spaces instantly"
+        ];
+      }
+
+      if (cat === "wax-sachet") {
+        return [
+          "Made with 100% pure imported soy wax",
+          "Infused with essential oils only",
+          "No synthetic fragrance oils",
+          "Long lasting natural fragrance (up to 3 months)",
+          "Handcrafted and decorated with dried flowers",
+          "Perfect for wardrobes, cars, and rooms"
+        ];
+      }
+
+      if (cat === "soaps") {
+        return [
+          "Handmade with natural ingredients",
+          "Gentle on all skin types",
+          "No harsh chemicals or parabens",
+          "Enriched with essential oils",
+          "Beautifully packaged for gifting"
+        ];
+      }
+
+      if (cat === "concrete-decor") {
+        return [
+          "Handmade with premium concrete mix",
+          "Each piece is unique",
+          "Durable and long-lasting",
+          "Minimalist modern design",
+          "Perfect as home or office decor"
+        ];
+      }
+
+      return [
+        "Handcrafted with care",
+        "Made with premium materials",
+        "Unique, one-of-a-kind piece"
+      ];
+    }
+
+    // Load product detail
+    function loadProductDetail() {
+      var params = new URLSearchParams(window.location.search);
+      var productId = parseInt(params.get("id"));
+
+      if (!productId) {
+        window.location.href = "shop.html";
+        return;
+      }
+
+      var product = products.find(function(p) { return p.id === productId; });
+
+      if (!product) {
+        window.location.href = "shop.html";
+        return;
+      }
+
+      // Update page title
+      document.title = product.name + " | Earthen Beauty by Nupur";
+
+      // Find category info
+      var catObj = categories.find(function(c) { return c.id === product.category; });
+      var catName = catObj ? catObj.name : product.category;
+
+      // Find subcategory name
+      var subName = "";
+      if (catObj && catObj.subcategories.length > 0) {
+        var subObj = catObj.subcategories.find(function(s) { return s.id === product.subcategory; });
+        if (subObj) subName = subObj.name;
+      }
+
+      var creativeDesc = getCreativeDescription(product);
+      var sellingPoints = getSellingPoints(product);
+
+      // Build the detail view
+      var container = document.getElementById("product-detail");
+
+      var pointsHTML = "";
+      sellingPoints.forEach(function(point) {
+        pointsHTML += "<li>" + point + "</li>";
+      });
+
+      container.innerHTML =
+        '<div class="product-detail-image">' +
+          '<img src="' + product.image + '" alt="' + product.name + '">' +
+        '</div>' +
+        '<div class="product-detail-info">' +
+          '<div class="product-breadcrumb">' +
+            '<a href="index.html">Home</a> / ' +
+            '<a href="shop.html?cat=' + product.category + '">' + catName + '</a>' +
+            (subName ? ' / <a href="shop.html?cat=' + product.category + '&sub=' + product.subcategory + '">' + subName + '</a>' : '') +
+          '</div>' +
+          '<h1 class="product-detail-name">' + product.name + '</h1>' +
+          '<span class="product-detail-category">' + catName + (subName ? " - " + subName : "") + '</span>' +
+          '<div class="product-detail-price">₹' + product.price + '<span>(inclusive of all taxes)</span></div>' +
+          '<p class="product-detail-desc">' + creativeDesc + '</p>' +
+          '<div class="product-highlights">' +
+            '<h4>Why You Will Love This</h4>' +
+            '<ul>' + pointsHTML + '</ul>' +
+          '</div>' +
+          '<div class="product-detail-actions">' +
+            '<div class="product-detail-stepper">' +
+              '<button type="button" class="product-detail-step-btn" onclick="changeQty(-1)" aria-label="Decrease quantity">' +
+                '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>' +
+              '</button>' +
+              '<span class="product-detail-step-val" id="detail-qty">1</span>' +
+              '<button type="button" class="product-detail-step-btn" onclick="changeQty(1)" aria-label="Increase quantity">' +
+                '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>' +
+              '</button>' +
+            '</div>' +
+            '<button class="detail-add-btn" onclick="addProductToCart(' + product.id + ')">Add to Cart 🛍️</button>' +
+            '<button class="detail-add-btn" style="background: linear-gradient(135deg, var(--terracotta) 0%, var(--terracotta-deep) 100%); box-shadow: 0 6px 20px rgba(184,92,56,0.38);" onclick="buyNow(' + product.id + ')">Buy Now (Razorpay 🔒)</button>' +
+          '</div>' +
+          '<div style="margin-top: 14px; text-align: center;">' +
+            '<a href="javascript:void(0)" onclick="enquireWhatsApp(\'' + product.name.replace(/'/g, "\\'") + '\', ' + product.price + ')" style="font-size: 0.85rem; color: var(--forest-green); font-weight: 500; text-decoration: underline; display: inline-flex; align-items: center; gap: 6px;">' +
+              '💬 Have fragrance questions or customization requests? Chat on WhatsApp' +
+            '</a>' +
+          '</div>' +
+        '</div>';
+
+      // Load related products
+      loadRelated(product);
+    }
+
+    // Change quantity
+    function changeQty(change) {
+      currentQty += change;
+      if (currentQty < 1) currentQty = 1;
+      if (currentQty > 10) currentQty = 10;
+      document.getElementById("detail-qty").textContent = currentQty;
+    }
+
+    // Add product with quantity
+    function addProductToCart(productId) {
+      addToCart(productId, currentQty);
+    }
+
+    // Instant Buy Now via Razorpay & Shiprocket
+    function buyNow(productId) {
+      addProductToCart(productId);
+      if (typeof initiateCheckout === "function") {
+        initiateCheckout();
+      } else {
+        toggleCart();
+      }
+    }
+
+    // Enquire on WhatsApp
+    function enquireWhatsApp(name, price) {
+      var message = "Hi! I'm interested in *" + name + "* (₹" + price + ") from Earthen Beauty. Could you share more details?";
+      var phoneNumber = "918296891802";
+      window.open("https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message), "_blank");
+    }
+
+    // Load related products (same category, different product)
+    function loadRelated(currentProduct) {
+      var grid = document.getElementById("related-products");
+      if (!grid) return;
+
+      var related = products.filter(function(p) {
+        return p.category === currentProduct.category && p.id !== currentProduct.id;
+      }).slice(0, 4);
+
+      related.forEach(function(product) {
+        var catObj = categories.find(function(c) { return c.id === product.category; });
+        var catName = catObj ? catObj.name : product.category;
+
+        var card = document.createElement("div");
+        card.className = "product-card";
+        card.style.cursor = "pointer";
+        card.onclick = function() {
+          window.location.href = "product.html?id=" + product.id;
+        };
+
+        card.innerHTML =
+          '<div class="product-image">' +
+            '<img src="' + product.image + '" alt="' + product.name + '">' +
+            '<span class="product-tag">' + catName + '</span>' +
+          '</div>' +
+          '<div class="product-info">' +
+            '<h3>' + product.name + '</h3>' +
+            '<p class="product-category">' + product.description + '</p>' +
+            '<div class="product-bottom">' +
+              '<span class="product-price">₹' + product.price + '</span>' +
+              '<button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(' + product.id + ')">Add to Cart</button>' +
+            '</div>' +
+          '</div>';
+
+        grid.appendChild(card);
+      });
+    }
+
+    // Initialize
+    document.addEventListener("DOMContentLoaded", function() {
+      loadProductDetail();
+    });
+
+    // Automatically re-render if live backend products sync or change
+    window.addEventListener("earthen:products-updated", function() {
+      loadProductDetail();
+    });
+  </script>
+
+</body>
+</html>
