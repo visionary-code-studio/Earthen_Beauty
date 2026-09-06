@@ -98,6 +98,4 @@ Or double-click `START_WEBSITE.bat` on Windows.
 
 ---
 
-## 📄 License & Attribution
-
 © Earthen Beauty by Nupur. Handcrafted with Love. All Rights Reserved.
