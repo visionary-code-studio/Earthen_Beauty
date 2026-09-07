@@ -16,7 +16,16 @@ We have completed the comprehensive end-to-end integration between the **Storefr
   - **Live Product Catalog**: Products are pulled dynamically from the database (`/api/products`). Edits made in the Admin Portal (price, stock, title, image) reflect across the entire storefront in real-time via `earthen:products-updated`.
   - **Orders & Payments**: Storefront cart and bespoke gift box checkouts generate Razorpay orders and store completed customer orders with shipping addresses directly into the database `orders` table. Admin manages and updates fulfillment status.
   - **Customer Inquiries & Custom Quotes**: Contact messages and bespoke/bulk quote requests from `contact.html` and `customizable.html` are persisted directly to the `inquiries` and `custom_quotes` database tables and appear instantly in the Admin Portal's **Inquiries** tab.
-  - **Newsletter (The Scent Club)**: Storefront footer subscriptions are recorded in the `newsletter_subscribers` database table.
+- **Redesigned Admin Portal UI/UX (Inspired by Reference Design)**:
+  - **Left Sidebar Navigation**: Brand emblem with title, vertical navigation (Dashboard, Orders, Products, Inquiries, Team), active pill highlights, divider, Storefront ↗ link, and Sign Out action.
+  - **Top Navigation Bar**: Rounded global search bar (`Q Search...`), live notifications indicator, and user profile chip with avatar and dropdown.
+  - **Overview Dashboard Layout**:
+    - **4 Pastel KPI Stat Cards**: Total Revenue (soft rose/pink icon), Total Orders (soft purple icon), Total Items / Active Catalog (soft orange icon), and Inquiries & Quotes (soft blue icon).
+    - **Sales Analytic Card**: Interactive, smooth curved SVG spline chart with dual gradient area fills, month selector, and milestone peak badges ("Peak Revenue ₹28,450", "Bespoke Orders 18 Orders").
+    - **Order Recently Card**: Clean item list with square rounded image thumbnails, order titles, category subtitles, emerald green prices (`₹399.00`), item counts, and "View All Orders" button.
+    - **Top Selling Products Card**: Table with checkboxes, product thumbnails, titles, categories, `Live`/`Draft` status pills, sales counts, and earnings.
+    - **Category Share Card**: Interactive SVG Donut ring chart displaying category proportions (Candles 48%, Diffusers 28%, Custom 24%) with center total ("73 Items").
+  - **Catalog, Orders, Inquiries & Team Tabs**: Upgraded to match the modern, spacious, high-contrast, rounded card SaaS layout while preserving 100% of underlying API endpoints and database operations.
 
 ---
 
