@@ -408,43 +408,30 @@
               </div>
             </div>
 
-            <!-- Right: Monthly Profits / Category Breakdown Card -->
+            <!-- Right: Modern Category Breakdown Card -->
             <div class="dashboard-card">
               <div class="dashboard-card-header">
-                <h3 class="dashboard-card-title">Category Share</h3>
-                <span style="color: var(--text-muted); cursor: pointer; font-size: 1.1rem;">•••</span>
+                <div>
+                  <h3 class="dashboard-card-title">Category Share</h3>
+                  <p style="font-size: 0.74rem; color: var(--text-muted); margin-top: 2px;">Distribution across studio collections</p>
+                </div>
+                <span class="status-pill status-live" id="dash-cat-total-badge">73 Items</span>
               </div>
 
-              <div class="donut-chart-box">
-                <svg class="donut-svg" viewBox="0 0 100 100">
-                  <!-- Background ring -->
-                  <circle cx="50" cy="50" r="38" fill="transparent" stroke="#f1f5f9" stroke-width="12"/>
-                  <!-- Segment 1: Candles (Blue/Teal) - 45% -->
-                  <circle cx="50" cy="50" r="38" fill="transparent" stroke="#0ea5e9" stroke-width="12" stroke-dasharray="107.4 238.8" stroke-dashoffset="0"/>
-                  <!-- Segment 2: Diffusers & Mists (Purple) - 30% -->
-                  <circle cx="50" cy="50" r="38" fill="transparent" stroke="#8b5cf6" stroke-width="12" stroke-dasharray="71.6 238.8" stroke-dashoffset="-107.4"/>
-                  <!-- Segment 3: Custom & Decor (Terracotta/Pink) - 25% -->
-                  <circle cx="50" cy="50" r="38" fill="transparent" stroke="#b85c38" stroke-width="12" stroke-dasharray="59.7 238.8" stroke-dashoffset="-179"/>
-                </svg>
+              <!-- Modern Segmented Category Share Breakdown -->
+              <div id="dash-category-share" class="category-share-container">
+                <div class="category-stacked-bar" id="dash-category-bar">
+                  <!-- Segment widths populated dynamically -->
+                  <div class="category-stacked-segment" style="width: 46.6%; background: #10b981;" title="Candles: 46.6%"></div>
+                  <div class="category-stacked-segment" style="width: 16.4%; background: #0ea5e9;" title="Diffusers: 16.4%"></div>
+                  <div class="category-stacked-segment" style="width: 13.7%; background: #8b5cf6;" title="Wax Sachet: 13.7%"></div>
+                  <div class="category-stacked-segment" style="width: 11.0%; background: #f59e0b;" title="Mist & Spray: 11.0%"></div>
+                  <div class="category-stacked-segment" style="width: 6.8%; background: #ec4899;" title="Soaps: 6.8%"></div>
+                  <div class="category-stacked-segment" style="width: 5.5%; background: #b85c38;" title="Concrete Decor: 5.5%"></div>
+                </div>
 
-                <div class="donut-center-label">
-                  <div class="donut-center-sub">Total Catalog</div>
-                  <div class="donut-center-val" id="dash-donut-total">73 Items</div>
-                </div>
-              </div>
-
-              <div class="donut-legend">
-                <div class="donut-legend-item">
-                  <span class="dot-indicator" style="background:#0ea5e9;"></span>
-                  <span>Candles 48%</span>
-                </div>
-                <div class="donut-legend-item">
-                  <span class="dot-indicator" style="background:#8b5cf6;"></span>
-                  <span>Diffusers 28%</span>
-                </div>
-                <div class="donut-legend-item">
-                  <span class="dot-indicator" style="background:#b85c38;"></span>
-                  <span>Custom 24%</span>
+                <div class="category-list-modern" id="dash-category-list">
+                  <!-- Populated dynamically by renderCategoryShare -->
                 </div>
               </div>
             </div>
