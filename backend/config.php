@@ -61,18 +61,34 @@ function getDb(): PDO {
         return $pdo;
     }
 
-    // Attempt MySQL connection
+    // On Vercel / serverless environment, use writable /tmp SQLite copy
+    if (getenv('VERCEL') || getenv('NOW_REGION')) {
+        $tmpDb = '/tmp/earthen_beauty.db';
+        if (!file_exists($tmpDb) && file_exists(SQLITE_FALLBACK_FILE)) {
+            @copy(SQLITE_FALLBACK_FILE, $tmpDb);
+        }
+        if (file_exists($tmpDb)) {
+            $pdo = new PDO("sqlite:" . $tmpDb, null, null, [
+                PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            ]);
+            return $pdo;
+        }
+    }
+
+    // Attempt MySQL connection with 1-second timeout to prevent hanging on serverless
     try {
         $dsn = "mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
         $options = [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES   => false,
+            PDO::ATTR_TIMEOUT            => 1, // Quick 1s timeout if MySQL host is unreachable
         ];
         $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
         return $pdo;
     } catch (PDOException $e) {
-        // If MySQL server is unavailable or database not yet imported, fallback to SQLite
+        // If MySQL server is unavailable, fallback to SQLite
         if (file_exists(SQLITE_FALLBACK_FILE)) {
             $sqliteDsn = "sqlite:" . SQLITE_FALLBACK_FILE;
             $pdo = new PDO($sqliteDsn, null, null, [

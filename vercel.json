@@ -11,6 +11,18 @@
       "dest": "/api/index.php"
     },
     {
+      "src": "/signin",
+      "dest": "/signin.html"
+    },
+    {
+      "src": "/login",
+      "dest": "/signin.html"
+    },
+    {
+      "src": "/register",
+      "dest": "/signin.html?tab=register"
+    },
+    {
       "handle": "filesystem"
     }
   ]
