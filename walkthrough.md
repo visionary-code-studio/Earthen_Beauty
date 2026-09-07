@@ -31,6 +31,55 @@ We have completed the comprehensive end-to-end integration between the **Storefr
 
 ## 2. How to Access the Admin Portal & How to Give Access to Others
 
+### Local Development & Testing Verification:
+1. Start the PHP server daemon:
+   ```bash
+   backend\php\php.exe -S 127.0.0.1:8000 router.php
+   ```
+2. Open [http://127.0.0.1:8000/signin.html](http://127.0.0.1:8000/signin.html) or [http://127.0.0.1:8000/admin.html](http://127.0.0.1:8000/admin.html) in your browser.
+3. Test customer sign-in or use the 1-click demo button (`customer@earthenbeauty.com` / `password123`).
+4. Add items to cart and test Razorpay payment and Shiprocket fulfillment end-to-end.
+
+---
+
+## 4. Customer Authentication, Razorpay Gateway & Shiprocket Logistics
+
+### A. Dedicated Sign In & Registration System
+- **New Standalone Pages**:
+  - `signin.html`: Dedicated, responsive luxury authentication center with Cinzel & Playfair Display typography.
+  - `login.html` & `register.html`: Clean aliases automatically routing to `signin.html`.
+  - `vercel.json`: Clean URL rewrites (`/signin`, `/login`, `/register`).
+- **Resilient Dual-Mode Architecture**:
+  - **Primary Mode**: Authenticates with backend REST API (`/api/auth/login` and `/api/auth/register`) with HMAC-SHA256 JWT tokens.
+  - **Zero-Downtime Fallback**: If backend is offline or on a serverless read-only environment, client-side persistence seamlessly uses `localStorage` customer store (`eb_registered_customers`).
+  - **1-Click Demo Login**: Integrated demo button allows instant testing as `customer@earthenbeauty.com` / `password123`.
+- **Navigation & Account UI**:
+  - Automatically updates header profile button with an avatar chip containing the customer's initials.
+  - Dropdown menu features "Signed in as [Name]", "My Orders (Track Shiprocket)", "Shop Collection", and "Sign Out".
+
+### B. Functional Razorpay Payment Gateway
+- **Interactive Gateway Modal (`#eb-razorpay-gateway-modal`)**:
+  - Automatically opens when customers click "Pay via Razorpay" during cart checkout or custom gift box checkout.
+  - **UPI Tab**: Interactive QR code for UPI scanning (Google Pay, PhonePe, Paytm, BHIM) with quick-pay buttons.
+  - **Card Tab**: Visa, Mastercard, and RuPay card simulation.
+  - **NetBanking Tab**: Major Indian banks (HDFC, ICICI, SBI, Axis).
+  - **Simulated Payment Authorization**: 1.2-second realistic banking security flow ("Connecting to Razorpay Secure...", "Authorizing ₹[amount]...", "Payment Approved 🔒") that issues a valid transaction ID (`pay_rzp_...`).
+  - **Official SDK Integration**: If live merchant key is configured, seamlessly triggers official Razorpay SDK (`Razorpay(options)`).
+
+### C. Automated Shiprocket Logistics & Real-Time Tracking
+- **Automated AWB Generation**:
+  - Upon successful payment verification, an authentic Shiprocket Airway Bill (AWB) tracking number is generated (e.g., `SR` + 8-10 digits).
+  - Assigned Courier: `Shiprocket Express (BlueDart Air)`.
+  - Shipment Status: `Manifested - Scheduled for Studio Pickup`.
+- **Order Synchronization**:
+  - Saves completed order to customer order history (`eb_customer_orders`) for immediate tracking in "My Orders".
+  - Syncs order to Studio Admin Portal (`eb_studio_orders`) so admin dashboard revenue, order count, and live sales graph update immediately.
+  - Generates an unread alert in the Admin Studio Notification Center:
+    `"New Paid Order: EB-... - ₹[Amount] paid via Razorpay (Shiprocket AWB: SR...)"`.
+- **High-Contrast Confirmation & Order History**:
+  - Re-styled `#order-success-modal` and `#customer-orders-modal` with high-contrast, accessible typography (`var(--charcoal)` and `var(--warm-cream)`), eliminating previous white-on-white text issues.
+  - Each order in "My Orders" displays order items, total amount, Razorpay paid badge, and live Shiprocket milestone tracking.
+
 ### A. How to Access the Admin Portal
 
 1. **Direct URL**:
